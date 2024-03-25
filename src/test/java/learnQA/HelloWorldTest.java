@@ -1,14 +1,10 @@
 package learnQA;
 
-import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
-import io.restassured.http.Headers;
 import org.junit.jupiter.api.Test;
 import io.restassured.RestAssured;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class HelloWorldTest {
@@ -55,7 +51,7 @@ public class HelloWorldTest {
                 .body(data)
                 .cookies(cookies)
                 .when()
-                .post("https://playground.learnqa.ru/api/check_auth_cookie")
+                .get("https://playground.learnqa.ru/ajax/api/longtime_job")
                 .andReturn();
 
         responseForCheck.print();
