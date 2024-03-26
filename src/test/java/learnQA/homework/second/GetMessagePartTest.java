@@ -1,4 +1,4 @@
-package learnQA;
+package learnQA.homework.second;
 
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
