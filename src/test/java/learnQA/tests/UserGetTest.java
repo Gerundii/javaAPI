@@ -16,10 +16,10 @@ public class UserGetTest extends BaseTestCase {
                 .get("https://playground.learnqa.ru/api/user/2")
                 .andReturn();
 
-        Assertions.assertJsonHasKey(responseUserData, "username");
-        Assertions.assertJsonHasNotKey(responseUserData, "firstName");
-        Assertions.assertJsonHasNotKey(responseUserData, "lastName");
-        Assertions.assertJsonHasNotKey(responseUserData, "email");
+        String[] unexpectedFields = {"firstName", "lastName",  "email"};
+
+        Assertions.assertJsonHasField(responseUserData, "username");
+        Assertions.assertJsonHasNotFields(responseUserData, unexpectedFields);
     }
     @Test
     public void testGetUserDetailsAuthAsSameUser() {
@@ -43,12 +43,8 @@ public class UserGetTest extends BaseTestCase {
                 .get("https://playground.learnqa.ru/api/user/2")
                 .andReturn();
 
-        Assertions.assertJsonHasKey(responseUserData, "username");
-        Assertions.assertJsonHasKey(responseUserData, "firstName");
-        Assertions.assertJsonHasKey(responseUserData, "lastName");
-        Assertions.assertJsonHasKey(responseUserData, "email");
+        String[] expectedFields = {"username", "firstName", "lastName",  "email"};
 
-
-
+        Assertions.assertJsonHasFields(responseUserData, expectedFields);
     }
 }
