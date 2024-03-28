@@ -65,6 +65,12 @@
             <artifactId>datafaker</artifactId>
             <version>2.1.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <version>1.7.13</version>
+        </dependency>
     </dependencies>
 
     <build>
