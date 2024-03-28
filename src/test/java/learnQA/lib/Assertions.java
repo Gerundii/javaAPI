@@ -3,6 +3,7 @@ package learnQA.lib;
 import io.restassured.response.Response;
 
 import static org.hamcrest.Matchers.hasKey;
+import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Assertions {
@@ -23,5 +24,9 @@ public class Assertions {
 
     public static void assertJsonHasKey(Response response, String expectedFieldName) {
         response.then().assertThat().body("$", hasKey(expectedFieldName));
+    }
+
+    public static void assertJsonHasNotKey(Response response, String unexpectedFieldName) {
+        response.then().assertThat().body("$", not(hasKey(unexpectedFieldName)));
     }
 }
