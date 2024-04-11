@@ -5,7 +5,6 @@ import learnQA.lib.Assertions;
 import learnQA.lib.BaseTestCase;
 import learnQA.util.DataGenerator;
 import org.junit.jupiter.api.Test;
-import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 
 import java.util.HashMap;
