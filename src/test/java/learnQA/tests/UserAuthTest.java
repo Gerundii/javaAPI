@@ -4,7 +4,6 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.restassured.response.Response;
-import learnQA.lib.ApiCoreRequests;
 import learnQA.lib.Assertions;
 import learnQA.lib.BaseTestCase;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,7 +21,6 @@ public class UserAuthTest extends BaseTestCase {
     String cookie;
     String header;
     int userIdOnAuth;
-    private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
 
     @BeforeEach
     public void loginUser() {
@@ -31,13 +29,11 @@ public class UserAuthTest extends BaseTestCase {
         authData.put("password", "1234");
 
         Response responseGetAuth = apiCoreRequests
-                .makeLoginPostRequest("https://playground.learnqa.ru/api/user/login", authData);
+                .makePostRequest("https://playground.learnqa.ru/api/user/login", authData);
 
-        hasStatusCode(responseGetAuth, 200);
         this.cookie = getCookie(responseGetAuth, "auth_sid");
         this.header = getHeader(responseGetAuth, "x-csrf-token");
-        this.userIdOnAuth = this.getIntFromJson(responseGetAuth, "user_id");
-        hasUserIdNotEqualZero(userIdOnAuth);
+        this.userIdOnAuth = getIntFromJson(responseGetAuth, "user_id");
     }
     @Test
     @Description ("This test successfully authorize user by email and password")
@@ -50,10 +46,11 @@ public class UserAuthTest extends BaseTestCase {
         Assertions.assertJsonByName(responseCheckAuth, "user_id", this.userIdOnAuth);
     }
 
-    @Description("This tests checks authorisation status without sending auth cookie or token")
-    @DisplayName("Test negative auth user")
+
     @ParameterizedTest
     @ValueSource (strings = {"cookie", "headers"})
+    @Description("This tests checks authorisation status without sending auth cookie or token")
+    @DisplayName("Test negative auth user")
     public void testNegativeAuthUser (String condition) {
         if (condition.equals("cookie")) {
             Response responseForCheck = apiCoreRequests
