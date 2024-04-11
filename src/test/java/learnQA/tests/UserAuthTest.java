@@ -1,25 +1,20 @@
 package learnQA.tests;
 
-import io.restassured.RestAssured;
-import io.restassured.http.Headers;
-import io.restassured.path.json.JsonPath;
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
-import learnQA.lib.BaseTestCase;
-import learnQA.lib.Assertions;
 import learnQA.lib.ApiCoreRequests;
+import learnQA.lib.Assertions;
+import learnQA.lib.BaseTestCase;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import io.qameta.allure.Description;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
-import org.junit.jupiter.api.DisplayName;
 
 @Epic("Authorisation cases")
 @Feature("Authorisation")
@@ -36,7 +31,7 @@ public class UserAuthTest extends BaseTestCase {
         authData.put("password", "1234");
 
         Response responseGetAuth = apiCoreRequests
-                .makePostRequest("https://playground.learnqa.ru/api/user/login", authData);
+                .makeLoginPostRequest("https://playground.learnqa.ru/api/user/login", authData);
 
         hasStatusCode(responseGetAuth, 200);
         this.cookie = getCookie(responseGetAuth, "auth_sid");
@@ -55,7 +50,7 @@ public class UserAuthTest extends BaseTestCase {
         Assertions.assertJsonByName(responseCheckAuth, "user_id", this.userIdOnAuth);
     }
 
-    @Description("This tests checks authorisation status without sending auh cookie or token")
+    @Description("This tests checks authorisation status without sending auth cookie or token")
     @DisplayName("Test negative auth user")
     @ParameterizedTest
     @ValueSource (strings = {"cookie", "headers"})
@@ -73,7 +68,7 @@ public class UserAuthTest extends BaseTestCase {
                             this.header);
             Assertions.assertJsonByName(responseForCheck, "user_id", 0);
         } else {
-            throw new IllegalArgumentException("Condition value is known: " + condition);
+            throw new IllegalArgumentException("Condition value is unknown: " + condition);
         }
     }
 }
