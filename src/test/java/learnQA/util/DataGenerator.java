@@ -13,10 +13,10 @@ public class DataGenerator {
     public static Map<String, String> getRegistrationData() {
         Map<String, String> userData = new HashMap<>();
         userData.put("email", Datafaker.generateEmail());
-        userData.put("password", "123");
-        userData.put("username", "learnqa");
-        userData.put("firstName", "learn");
-        userData.put("lastName", "learn");
+        userData.put("password", "12345");
+        userData.put("username", Datafaker.generateUserName());
+        userData.put("firstName", Datafaker.generateFirstName());
+        userData.put("lastName", Datafaker.generateLastName());
 
         return userData;
     }
