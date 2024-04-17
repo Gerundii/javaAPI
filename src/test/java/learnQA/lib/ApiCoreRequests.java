@@ -49,9 +49,4 @@ public class ApiCoreRequests {
                 .post(url)
                 .andReturn();
     }
-
-    /*@Step("Make a GET-request to find information about the user")
-    public Response makeGetRequestToFindUserInfo() {
-
-    }*/
 }
