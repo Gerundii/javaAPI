@@ -10,11 +10,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UserGetTest extends BaseTestCase {
+    String cookie;
+    String header;
+    int userIdOnAuth;
     @Test
     public void testGetUserDataWithoutAuth() {
-        Response responseUserData = RestAssured
-                .get("https://playground.learnqa.ru/api/user/2")
-                .andReturn();
+        Response responseUserData = apiCoreRequests
+                .makeGetRequestWithoutTokenAndCooke("https://playground.learnqa.ru/api/user/2");
 
         String[] unexpectedFields = {"firstName", "lastName",  "email"};
 
@@ -27,21 +29,14 @@ public class UserGetTest extends BaseTestCase {
         authData.put("email", "vinkotov@example.com");
         authData.put("password", "1234");
 
-        Response responseGetAuth = RestAssured
-                .given()
-                .body(authData)
-                .post("https://playground.learnqa.ru/api/user/login")
-                .andReturn();
+        Response responseGetAuth = apiCoreRequests
+                .makePostRequest("https://playground.learnqa.ru/api/user/login", authData);
 
-        String cookie = getCookie(responseGetAuth, "auth_sid");
-        String header = getHeader(responseGetAuth, "x-csrf-token");
+        this.cookie = getCookie(responseGetAuth, "auth_sid");
+        this.header = getHeader(responseGetAuth, "x-csrf-token");
 
-        Response responseUserData = RestAssured
-                .given()
-                .header("x-csrf-token", header)
-                .cookie("auth_sid", cookie)
-                .get("https://playground.learnqa.ru/api/user/2")
-                .andReturn();
+        Response responseUserData = apiCoreRequests
+                .makeGetRequestWithCookieAndToken("https://playground.learnqa.ru/api/user/2", this.header ,this.cookie);
 
         String[] expectedFields = {"username", "firstName", "lastName",  "email"};
 
