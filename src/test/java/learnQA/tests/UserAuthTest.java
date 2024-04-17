@@ -41,7 +41,7 @@ public class UserAuthTest extends BaseTestCase {
     public void testAuthUser() {
 
         Response responseCheckAuth = apiCoreRequests
-                .makeGetRequest("https://playground.learnqa.ru/api/user/auth", this.header ,this.cookie);
+                .makeGetRequestWithCookieAndToken("https://playground.learnqa.ru/api/user/auth", this.header ,this.cookie);
 
         Assertions.assertJsonByName(responseCheckAuth, "user_id", this.userIdOnAuth);
     }
